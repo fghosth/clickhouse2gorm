@@ -1,4 +1,4 @@
-package model
+package climodel
 
 import "time"
 
@@ -8,11 +8,11 @@ type Issues struct {
 	Category   string    `db:"category"`
 	Epics      string    `db:"epics"`
 	Project    string    `db:"project"`
-	DueDate    time.Time `db:"dueDate"`   //nolint:typecheck
-	StartDate  time.Time `db:"startDate"` //nolint:typecheck
+	DueDate    time.Time `db:"due_date"`
+	StartDate  time.Time `db:"start_date"`
 	Status     string    `db:"status"`
-	EndDate    time.Time `db:"endDate"` //nolint:typecheck
+	EndDate    time.Time `db:"end_date"`
 	Progress   int16     `db:"progress"`
 	Key        string    `db:"key"`
-	CreateDate time.Time `db:"createDate"` //nolint:typecheck
+	CreateDate time.Time `db:"create_date"`
 }

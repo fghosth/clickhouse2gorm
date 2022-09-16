@@ -1,4 +1,4 @@
-module clickhouse2gorm
+module github.com/fghosth/clickhouse2gorm
 
 go 1.18
 

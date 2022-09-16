@@ -8,11 +8,11 @@ type Issues struct {
 	Category   string    `db:"category"`
 	Epics      string    `db:"epics"`
 	Project    string    `db:"project"`
-	DueDate    time.Time `db:"dueDate"`
-	StartDate  time.Time `db:"startDate"`
+	DueDate    time.Time `db:"dueDate"`   //nolint:typecheck
+	StartDate  time.Time `db:"startDate"` //nolint:typecheck
 	Status     string    `db:"status"`
-	EndDate    time.Time `db:"endDate"`
+	EndDate    time.Time `db:"endDate"` //nolint:typecheck
 	Progress   int16     `db:"progress"`
 	Key        string    `db:"key"`
-	CreateDate time.Time `db:"createDate"`
+	CreateDate time.Time `db:"createDate"` //nolint:typecheck
 }

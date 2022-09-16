@@ -1,8 +1,8 @@
 package test
 
 import (
-	"clickhouse2gorm/gen"
 	"fmt"
+	"github.com/fghosth/clickhouse2gorm/gen"
 	"net/url"
 	"testing"
 )

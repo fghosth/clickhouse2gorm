@@ -1,9 +1,9 @@
 package gen
 
 import (
-	"clickhouse2gorm/db"
-	"clickhouse2gorm/util"
 	"fmt"
+	"github.com/fghosth/clickhouse2gorm/db"
+	"github.com/fghosth/clickhouse2gorm/util"
 	"gorm.io/gorm"
 	"os"
 	"strings"

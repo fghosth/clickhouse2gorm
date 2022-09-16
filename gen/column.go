@@ -1,8 +1,8 @@
 package gen
 
 import (
-	"clickhouse2gorm/util"
 	"fmt"
+	"github.com/fghosth/clickhouse2gorm/util"
 	"gorm.io/gorm"
 	"regexp"
 	"strings"

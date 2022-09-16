@@ -24,7 +24,7 @@ func TestClickhouse2Struct(t *testing.T) {
 	// }, dbName, tblName)
 	err := gen.GenerateAll(gen.CHGenConf{
 		Dsn:       dsn,
-		WritePath: "./model",
+		WritePath: "./climodel",
 		Stdout:    false,
 		Overwrite: true,
 	}, dbName)

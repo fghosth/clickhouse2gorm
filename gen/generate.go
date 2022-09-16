@@ -79,8 +79,12 @@ func GenerateAll(conf CHGenConf, dbName string) (err error) {
 
 func doGenerateOne(db *gorm.DB, conf CHGenConf, dbName string, tblName string) (err error) {
 	info, err := GetTableInfo(db, dbName, tblName)
+	if err != nil {
+		return err
+	}
 	builder := strings.Builder{}
-	builder.WriteString("package model")
+	patharr := strings.Split(conf.WritePath, "/")
+	builder.WriteString("package " + patharr[len(patharr)-1])
 	builder.WriteString("\n")
 	builder.WriteString("\n")
 	builder.WriteString("type ")

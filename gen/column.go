@@ -15,21 +15,20 @@ type Column struct {
 
 type Columns []Column
 
-//change2Info Column转换成ColumnInfo
+// change2Info Column转换成ColumnInfo
 func (cs Columns) change2Info() ([]ColumnInfo, error) {
 	num := len(cs)
 	csInfo := make([]ColumnInfo, num)
-
 	for idx, one := range cs {
 		if err := csInfo[idx].set(one); err != nil {
+			fmt.Println(err)
 			return nil, err
 		}
 	}
-
 	return csInfo, nil
 }
 
-//getTableColumns 获取表的列和类型
+// getTableColumns 获取表的列和类型
 func (cs *Columns) getTableColumns(db *gorm.DB, dbName string, tblName string) error {
 	sql := fmt.Sprintf("select name,type from system.columns where database='%s' and table='%s'", dbName, tblName)
 	res := db.Raw(sql).Scan(cs)
@@ -64,9 +63,9 @@ func (c *ColumnInfo) setField(name string) {
 	}
 }
 
-//setType sql中的type与go的类型对应
+// setType sql中的type与go的类型对应
 func (c *ColumnInfo) setType(typeName string) error {
-	//精确匹配
+	// 精确匹配
 	if v, ok := TypeCHDicMp[typeName]; ok {
 		c.Type = v
 		return nil
@@ -89,7 +88,6 @@ func GetTableColumnsInfo(db *gorm.DB, dbName string, tblName string) ([]ColumnIn
 	if err := columns.getTableColumns(db, dbName, tblName); err != nil {
 		return nil, err
 	}
-
 	columnsInfo, err := columns.change2Info()
 	if err != nil {
 		return nil, err

@@ -10,10 +10,10 @@ import (
 )
 
 type CHGenConf struct {
-	Dsn       string //数据库配置
-	WritePath string //生成文件路径
-	Stdout    bool   //true时只输出至标准输出
-	Overwrite bool   //true则覆盖原文件
+	Dsn       string // 数据库配置
+	WritePath string // 生成文件路径
+	Stdout    bool   // true时只输出至标准输出
+	Overwrite bool   // true则覆盖原文件
 }
 
 func (g CHGenConf) isValid() error {
@@ -45,10 +45,33 @@ func GenerateOne(conf CHGenConf, dbName string, tblName string) (err error) {
 	if err != nil {
 		return fmt.Errorf("ch init err:%s", err)
 	}
-
 	err = doGenerateOne(db, conf, dbName, tblName)
 	if err != nil {
 		fmt.Printf("GenerateOne for table %s err:%s\n", tblName, err)
+	}
+
+	return nil
+}
+
+func GenerateAll(conf CHGenConf, dbName string) (err error) {
+	err = conf.isValid()
+	if err != nil {
+		fmt.Printf("GenerateOne for db:%s err:%s\n", dbName, err)
+		return err
+	}
+
+	db, err := db.InitCH(conf.Dsn)
+	if err != nil {
+		return fmt.Errorf("ch init err:%s", err)
+	}
+	tables := Tables{}
+	tables.GetTables(db)
+	fmt.Println(tables)
+	for _, tblName := range tables {
+		err = doGenerateOne(db, conf, dbName, tblName)
+		if err != nil {
+			fmt.Printf("GenerateOne for table %s err:%s\n", tblName, err)
+		}
 	}
 
 	return nil
@@ -69,7 +92,7 @@ func doGenerateOne(db *gorm.DB, conf CHGenConf, dbName string, tblName string) (
 		pName := util.StrCamel(columnInfo.Field)
 		builder.WriteString(pName + " ")
 		builder.WriteString(columnInfo.Type + " ")
-		builder.WriteString(fmt.Sprintf("`json:\"%s\"`", util.StrFirstToLower(pName)))
+		builder.WriteString(fmt.Sprintf("`db:\"%s\"`", util.StrFirstToLower(pName)))
 		builder.WriteString("\n")
 	}
 	builder.WriteString("}")
@@ -79,7 +102,7 @@ func doGenerateOne(db *gorm.DB, conf CHGenConf, dbName string, tblName string) (
 		return nil
 	}
 
-	//输出至文件
+	// 输出至文件
 	path, err := mkDir(conf.WritePath, "")
 	if err != nil {
 		return fmt.Errorf("mkdir %s err:%s", path, err)
@@ -97,13 +120,13 @@ func doGenerateOne(db *gorm.DB, conf CHGenConf, dbName string, tblName string) (
 	return nil
 }
 
-//mkFileName 拼接路径和文件名
+// mkFileName 拼接路径和文件名
 func mkFileName(path string, name string) string {
 	path = strings.TrimRight(path, "/")
 	return fmt.Sprintf("%s/%s.go", path, name)
 }
 
-//mkDir 创建并返回文件所在目录
+// mkDir 创建并返回文件所在目录
 func mkDir(base string, tblDir string) (string, error) {
 	fullDir := fmt.Sprintf("%s/%s", base, tblDir)
 

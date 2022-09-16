@@ -20,8 +20,8 @@ func (t *Tables) GetTables(orm *gorm.DB) error {
 
 // TableInfo 单个表在生成struct时所需的全部信息
 type TableInfo struct {
-	TableName   string //原始表名
-	StructName  string //驼峰表名
+	TableName   string // 原始表名
+	StructName  string // 驼峰表名
 	ColumnsInfo []ColumnInfo
 }
 

@@ -96,7 +96,7 @@ func doGenerateOne(db *gorm.DB, conf CHGenConf, dbName string, tblName string) (
 		pName := util.StrCamel(columnInfo.Field)
 		builder.WriteString(pName + " ")
 		builder.WriteString(columnInfo.Type + " ")
-		builder.WriteString(fmt.Sprintf("`db:\"%s\"`", util.Camel2Case(pName)))
+		builder.WriteString(fmt.Sprintf("`db:\"%s\" ch:\"%s\"`", util.Camel2Case(pName), util.Camel2Case(pName)))
 		builder.WriteString("\n")
 	}
 	builder.WriteString("}")
